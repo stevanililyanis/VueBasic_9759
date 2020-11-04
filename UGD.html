@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unguided Permainan Game Tebak Angka</title>
+    <script src="vue.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="jumbotron jumbotron-fluid" style="text-align: center; background-color: darksalmon;">
+        <div class="container">
+          <h1 class="display-4">Tebak Angka</h1>
+          <p class="lead">Gunakan 3x kesempatanmu untuk menebak angka 1-10!</p>
+        </div>
+      </div>
+    <div id="app">
+        <div class= "d-flex justify-content-center">
+            <div class= "card my-5" style= "height: 13rem; width:30%;text-align: center; ">
+                
+                    <h5 style="margin-top: 30px;">
+                        Masukkan angka tebakanmu (1-10)
+                    </h5> 
+                    
+                    <input type= "number" class= "form-control" style="text-align: center; margin-top: 15px; margin-left:60px;width: 70%;" v-model="inputAngka" :disabled="isDisabled"/>
+                    <br>
+                    <button class= "btn" style= "background-color: coral; width:70%;margin-left:60px;margin-top: 20px;margin-bottom: 30px;"@click="tebak" :disabled="isDisabled">Tebak</button>
+                
+            </div>
+        </div>
+        
+        <div class= "d-flex justify-content-center">
+            <div class= "text-center" v-show= "salah">
+                <div class= "alert alert-warning">
+                    Tebakan Kamu Salah, Kamu Masih Memiliki {{ kesempatan }} Kesempatan Lagi !
+                </div>
+                <button class="btn btn-warning" @click="tebakLagi" >Tebak lagi</button>
+            </div>
+            <div class= "text-center" v-show="kalah">
+                <div class= "alert alert-danger">
+                    Kesempatan Kamu Habis, Angka yang benar adalah {{ angka }} !
+                </div> 
+                <button class= "btn btn-danger" @click= "tryAgain" >Try Again</button>
+            </div>
+            <div class= "text-center" v-show="benar">
+                <div class="alert alert-success">
+                    Selamat! Tebakanmu benar, Angkanya adalah {{ angka }} !
+                </div>
+                <button class= "btn btn-success" @click= "tryAgain" >Try Again</button>
+            </div>
+        </div>
+       
+            <div class= "border border-info text-center d-flex justify-content-center" style= "width: 20%;margin-top: 15px; margin-left: 40%;">
+            <br>
+            Kesempatan kamu tersisa {{ kesempatan }} x
+            </div>
+       
+        
+        <footer class="text-center mt-5" style="margin-bottom: 20px;">
+            {{ `${user.nama} | ${user.npm} | ${user.kelas}` }}
+            
+        </footer>
+    </div>
+</body>
+<script>
+    new Vue({
+        el: "#app",
+        data: {
+            kesempatan: 3,
+            inputAngka: 0,
+            angka: Math.floor(Math.random()*10)+1,
+            benar: undefined,
+            salah: undefined,
+            kalah: undefined,
+            isDisabled: false,
+            
+            user: {
+                nama:'Stevani Lilyani Saputri',
+                npm:'180709759',
+                kelas: 'D',
+            },
+        },
+        methods: {
+           tebak(){
+               console.log(this.angka)
+            if(this.inputAngka == this.angka){
+                this.benar = 1;
+                this.isDisabled = true;
+            }else {
+                    
+                    this.kesempatan--;
+                    this.isDisabled = true;
+                    this.salah = 1;
+
+                    if(this.kesempatan==0){
+                        this.kalah = 1;
+                        this.salah = undefined;
+                    }
+            }              
+           },
+
+           tebakLagi(){
+                this.isDisabled = false;
+                this.salah = undefined;
+           },
+
+           tryAgain(){
+               location.reload();
+           }
+        },
+ 
+    });
+</script>
+</html>
