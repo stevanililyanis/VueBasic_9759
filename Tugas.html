@@ -1,36 +1,119 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Unguided </title>
+    <title>Tugas Modul Vue Js Basic</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
     <script src="vue.js"></script>
 </head>
+
 <body>
-    <div id="app">
-        <div class= "d-flex justify-content-center">
-            <div class="form">
-                <form>
-                    <input type="text" >
-                    </input>
-                </form>
-            </div>
+    <div class="jumbotron jumbotron-fluid" style="text-align: center; background-color: pink;">
+        <div class="container">
+          <h1 class="display-4">TO DO LIST</h1>
+          <p class="lead">Prioritaskan list pekerjaanmu!</p>
         </div>
     </div>
-    
-    
+
+    <div id="app">
+        <div class= "d-flex justify-content-center">
+            <div class= "card my-5" style= " width:30%;text-align: center; padding:15px">
+                <h5 style="margin: 30px;">
+                    Masukan pekerjaan yang harus kamu lakukan
+                </h5> 
+                <div id="input_todo">
+                    <input class= "form-control" style="text-align: left; margin-top: 15px; margin-left:68px;width: 70%;"
+                            v-model="inputNama" placeholder="Judul" >
+                    <input class= "form-control" style="text-align: left; margin-top: 15px; margin-left:68px;width: 70%;"
+                            v-model="inputCatatan" placeholder="Catatan" >
+                    <select class= "form-control" style="text-align: left; margin-top: 15px; margin-left:68px;width: 70%;"
+                            v-model="inputPrioritas" >
+                        <option disabled value="">Pilih Prioritas</option>
+                        <option>Penting</option>
+                        <option>Biasa</option>
+                        <option>Tidak Penting</option>
+                    </select>
+                    <button class="btn" style= "background-color: pink; width:70%;margin-top: 30px;margin-bottom: 10px;"
+                        v-on:click="submitForm">Tambah</button>
+                    <button class="btn" style= "background-color: grey; width:70%;margin-bottom: 20px;"
+                        v-on:click="resetForm">Batal</button>
+                    
+                </div>
+            </div>
+        </div>
+        <div v-for="(listTodo, index) in listTodos" :key="index">
+            <div class= "d-flex justify-content-center">
+                <div class= "d-flex justify-content-center card my-5" style= " width:30%;text-align: center; padding:15px">
+                    
+                    
+                    <div v-if="listTodo.prioritas=='Biasa'" class= "border border-info bg-info text-center d-flex justify-content-center" style= "color: ivory;; margin-top: 10px;">
+                        {{ listTodo.prioritas }}
+                    </div>
+                    
+                    <div v-if="listTodo.prioritas=='Penting'" class= "border border-danger bg-danger text-center d-flex justify-content-center" style= "color: ivory; margin-top: 10px;">
+                        {{ listTodo.prioritas }}
+                    </div>
+
+                    <div v-if="listTodo.prioritas=='Tidak Penting'" class= "border border-warning bg-warning text-center d-flex justify-content-center" style= "color: ivory; margin-top: 10px;">
+                        {{ listTodo.prioritas }}
+                    </div>
+
+                    <div class="title" style="font-weight: bold; font-size: 25px;">
+                        {{ listTodo.Nama }}
+                    </div>
+
+                    <div style="margin-top: 10px;">
+                        {{ listTodo.Catatan }}
+                    </div>
+                    <div class= "d-flex justify-content-center">
+                    <button class="btn" style="width: 30%; background-color: tomato; margin: 20px;"v-on:click="deleteList(index)">Delete</button>
+                    </div>
+                </div>
+        </div>
+
+        
+        </div>
+
+        <footer class="d-flex justify-content-center">
+            {{ user.nama }} | {{user.npm}} | {{user.kelas }}
+        </footer>
+
+    </div>
 </body>
 <script>
     new Vue({
         el: "#app",
         data: {
-           
+            inputNama: "",
+            inputCatatan: "",
+            inputPrioritas: "",
+            user: {
+                nama: 'Stevani Lilyani S',
+                npm: '180709759',
+                kelas: 'D',
+            },
+            listTodos: [
+               
+            ]
         },
         methods: {
-           
+            resetForm() {
+                this.inputNama = ""
+                this.inputCatatan = ""
+                this.inputPrioritas = ""
+            },
+            submitForm() {
+                if(!this.inputNama=="" && !this.inputCatatan=="" && !this.inputPrioritas=="" )
+                   { this.listTodos.push({Nama: this.inputNama, prioritas: this.inputPrioritas, Catatan: this.inputCatatan})
+                    this.resetForm() }
+            },
+            deleteList(index) {
+                this.listTodos.splice(index, 1)
+            }
         },
-
     });
 </script>
+
 </html>
